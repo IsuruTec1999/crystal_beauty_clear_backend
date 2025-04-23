@@ -8,7 +8,7 @@ export function getAllItems(req,res) {
     ).catch(
         () => {
             res.json({
-                message: "items are not found"
+                message: "items not found"
             });
         }
     )
@@ -19,7 +19,7 @@ export function saveItem(req, res) {
 
     if(req.user.role != "admin") {
         res.status(403).json({
-            message: "You cannot add items"
+            message: "You can not add items"
         })
         return;
     }
