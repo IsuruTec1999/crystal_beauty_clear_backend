@@ -8,7 +8,7 @@ export function getAllItems(req,res) {
     ).catch(
         () => {
             res.json({
-                message: "items not found"
+                message: "items are not found"
             });
         }
     )
