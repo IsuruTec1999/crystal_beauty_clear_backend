@@ -7,6 +7,7 @@ import itemRouter from "./routes/itemRouter.js";
 import userRouter from "./routes/userRouter.js";
 import jwt from "jsonwebtoken";
 import productRouter from "./routes/productRouter.js";
+import verifyJWT from "./middleware/auth.js";
 
 const app =express();
 
@@ -22,21 +23,8 @@ mongoose.connect("mongodb+srv://admin:123@cluster0.6tnyc.mongodb.net/?retryWrite
 
 app.use(bodyParser.json());
 //mongodb+srv://admin:123@cluster0.6tnyc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-app.use(
-    (req,res,next)=>{
-        const header = req.header("Authorization");
-        if(header != null){
-            const token = header.replace("Bearer ","")
-            jwt.verify(token,"random456",(err  , decoded)=>{
-                console.log(decoded)
-                if (decoded != null){
-                    req.user = decoded;
-                }
-            })
-        }
-        next();
-    }
-)
+app.use(verifyJWT)
+
 
 
 app.use("/api/student",studentRouter);
