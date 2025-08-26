@@ -8,6 +8,7 @@ import userRouter from "./routes/userRouter.js";
 import jwt from "jsonwebtoken";
 import productRouter from "./routes/productRouter.js";
 import verifyJWT from "./middleware/auth.js";
+import orderRouter from "./routes/orderRouter.js";
 
 const app =express();
 
@@ -31,6 +32,7 @@ app.use("/api/student",studentRouter);
 app.use("/api/item",itemRouter);
 app.use("/api/user",userRouter);
 app.use("/api/product",productRouter);
+app.use("/api/order",orderRouter);
  
 
 app.get("/",

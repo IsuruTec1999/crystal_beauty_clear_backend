@@ -1,5 +1,5 @@
 import Product from "../models/product.js";
-export function createProduct(req, res) {
+export async function createProduct(req, res) {
     if(req.user == null) {
         res.status(403).json({
             message: "You  need to login first"
@@ -15,20 +15,17 @@ export function createProduct(req, res) {
     }
 
     const product = new Product(req.body);
-
-    product.save().then(
-        () => {
-            res.json({
-                message: "product saved successfully"
-            });
-        }
-    ).catch(
-        (err) => { 
-            res.status(500).json({
-                message: "product not saved"
-            });
-        }
-    )
+    try{
+        await product.save()
+        res.json({
+            message: "product saved successfully"
+        })
+    }catch(err){
+        res.status(500).json({
+            message: "product not saved"
+        })
+    }
+    
 }
 
 export function getProducts(req, res) {
