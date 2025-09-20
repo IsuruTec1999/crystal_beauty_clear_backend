@@ -72,11 +72,13 @@ export function loginUser(req, res) {
                 isDisabled: user.isDisabled,
                 isEmailVerified: user.isEmailVerified
             }
+            console.log(userData);
 
             const token = jwt.sign(userData, process.env.JWT_KEY);
             res.status(200).json({
                 message: "login successful",
-                token: token
+                token: token,
+                user : userData
             })
         } else {
             res.status(403).json({
