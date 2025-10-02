@@ -28,7 +28,6 @@ mongoose.connect(process.env.MONGO_URL).then(
 )-
 
 app.use(bodyParser.json());
-//mongodb+srv://admin:123@cluster0.6tnyc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 app.use(verifyJWT)
 
 
