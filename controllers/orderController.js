@@ -1,6 +1,7 @@
 import Order from "../models/oder.js";
+import Product from "../models/product.js";
 
-export function createOrder(req,res){
+export async function createOrder(req,res){
 
     if(req.user == null) {
         res.status(403).json({
@@ -17,7 +18,7 @@ export function createOrder(req,res){
         name : body.name,
         address : body.address,
         phoneNumber : body.phoneNumber,
-        billItem : [],
+        billItems : [],
         total : 0
 
     }
@@ -27,7 +28,7 @@ export function createOrder(req,res){
         date : -1
 
     })
-     .limit(1).then((lastBills) => {
+     .limit(1).then(async (lastBills) => {
         if (lastBills.length == 0) {
             orderData.orderId = "ORD001";
         } else {
@@ -42,9 +43,23 @@ export function createOrder(req,res){
         }
 
         for(let i=0; i < body.billItems.length; i++) {
-            const billItem = body.billItems[i];
-
-            //check if product exists
+           const product = await Product.findOne({productId: body.billItems[i].productId});
+              if(product == null) {
+                  res.status(404).json({
+                      message: "Product with product ID " + body.billItems[i].productId + " not found"
+                  })
+                  return;
+              }
+              orderData.billItems[i] = {
+                
+                    productId : product.productId,
+                    productName : product.name,
+                    Image : product.images[0],
+                    quantity : body.billItems[i].quantity,
+                    price : product.price
+              };
+              orderData.total = orderData.total + (product.price * body.billItems[i].quantity);
+              
         }
 
     
