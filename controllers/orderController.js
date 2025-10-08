@@ -120,5 +120,24 @@ export function getOrders(req,res){
             }
         )
     }
-     
+
+}
+export async function updateOrder(req,res){
+    try{
+        if(req.user == null) {
+            res.status(403).json({
+                message: "Your are not authorized to update this order"
+            })
+            return;
+        }
+        const orderId = req.params.orderId
+        const order = await Order.findOneAndUpdate({orderId : orderId}, req.body);
+        res.json({
+            message : "order updated successfully"
+        })
+    }catch(err){
+        res.status(500).json({
+            message: "order not updated"
+        });
+    }
 }
