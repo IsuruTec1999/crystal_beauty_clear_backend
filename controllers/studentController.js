@@ -40,6 +40,7 @@ export function updateStudent(req,res){
 export function deleteStudent(req,res){
     res.json({
         message:"student deleted"
-    })      
+    })    
+      
 }
 
